@@ -41,7 +41,7 @@ class  Environment {
     ERR_load_BIO_strings();
     OpenSSL_add_all_algorithms();
     assert(sctx = SSL_CTX_new(TLSv1_method()));
-    filepath.replace_filename("server.pem");
+    filepath.replace_filename("testdata/server.pem");
     assert(SSL_CTX_use_certificate_file(sctx, filepath.c_str(),
                                         SSL_FILETYPE_PEM));
     filepath.replace_filename("server.key");
@@ -51,7 +51,7 @@ class  Environment {
 };
 
 extern "C" int LLVMFuzzerInitialize(const int* argc, char*** argv) {
-  filepath = std::string(*argv[0]);
+  filepath = std::string("/testdata");
   return 0;
 }
 
