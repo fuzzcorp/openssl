@@ -4,7 +4,7 @@ base:
   engine: libFuzzer
   docker_image: fuzzbuzzbot/openssl-broken
   steps: 
-    - run: $CXX -g handshake-fuzzer.cc -fprofile-instr-generate -fcoverage-mappping -fsanitize=address,fuzzer /opensslout/libssl.a /opensslout/libcrypto.a -std=c++17 -I/temp_src/openssl-1.0.1f/include/ -lstdc++fs -ldl -lstdc++ -o handshake-fuzzer
+    - run: $CXX -g handshake-fuzzer.cc -fprofile-instr-generate -fcoverage-mapping -fsanitize=address,fuzzer /opensslout/libssl.a /opensslout/libcrypto.a -std=c++17 -I/temp_src/openssl-1.0.1f/include/ -lstdc++fs -ldl -lstdc++ -o handshake-fuzzer
     - run: mkdir /testdata
     - run: cp ./server.key ./server.pem /testdata
   sanitizers:
