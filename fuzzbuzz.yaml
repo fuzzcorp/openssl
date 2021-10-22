@@ -5,7 +5,7 @@ base:
   docker_image: fuzzbuzzbot/openssl-broken:latest
   steps: 
     - run: rm -rf ./openssl-1.0.1f
-    - run: cp -R /opensslout ./openssl-1.0.1f
+    - run: cp -R /opensslout/* ./openssl-1.0.1f
     - run: $CXX -g handshake-fuzzer.cc  -fprofile-instr-generate -fcoverage-mapping -fsanitize=address,fuzzer ./openssl-1.0.1f/libssl.a ./openssl-1.0.1f/libcrypto.a -std=c++17 -I/temp_src/openssl-1.0.1f/include/ -lstdc++fs -ldl -lstdc++ -o handshake-fuzzer
     - run: mkdir /testdata
     - run: cp ./server.key ./server.pem /testdata
