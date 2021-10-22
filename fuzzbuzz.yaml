@@ -3,8 +3,10 @@ base:
   language: c++
   engine: libFuzzer
   docker_image: fuzzbuzzbot/openssl-broken:latest
-  steps:
-    - run: $CXX -g handshake-fuzzer.cc  -fprofile-instr-generate -fcoverage-mapping -fsanitize=address,fuzzer -L/opensslout -Wl,--whole-archive -lssl -lcrypto -Wl,--no-whole-archive -std=c++17 -I/temp_src/openssl-1.0.1f/include/ -lstdc++fs -ldl -lstdc++ -o handshake-fuzzer
+  steps: 
+    - run: CC="$CC -g -fprofile-instr-generate -fcoverage-mapping -fsanitize=address,fuzzer-no-link" ./config
+    - run: make CC="$CC -g -fprofile-instr-generate -fcoverage-mapping -fsanitize=address,fuzzer-no-link"
+    - run: $CXX -g handshake-fuzzer.cc  -fprofile-instr-generate -fcoverage-mapping -fsanitize=address,fuzzer ./libssl.a ./libcrypto.a -std=c++17 -I/temp_src/openssl-1.0.1f/include/ -lstdc++fs -ldl -lstdc++ -o handshake-fuzzer
     - run: mkdir /testdata
     - run: cp ./server.key ./server.pem /testdata
   sanitizers:
